@@ -7,6 +7,7 @@ private:
     
 public:
     Renderer mainMenuRenderer;
-    void showMainMenu();
+    void showMainMenu(Vector2 mouseXY);
     void update();
+    void init();
 };
