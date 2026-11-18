@@ -18,8 +18,53 @@ std::string Renderer::getComponentClicked(Vector2 mouseClickPosition) {
     return "none";
 }
 
-void Renderer::drawComponents() { 
+void Renderer::drawComponents(int frameNumber) { 
     for (const auto& component : components) {
-        component->draw();
+        component->draw(frameNumber);
     }
+}
+
+void Renderer::setPosition(std::string id, Vector2 position) {
+    for(const auto& component : components) {
+        if (component->getID() == id) {
+            component->setPosition(position);
+            break;
+        }
+    }
+}
+
+void Renderer::setDimension(std::string id, Vector2 dimension) {
+    for(const auto& component : components) {
+        if (component->getID() == id) {
+            component->setDimension(dimension);
+            break;
+        }
+    }
+}
+
+void Renderer::setTexture(std::string id, std::vector<Texture2D>* newTextures) {
+    for(const auto& component : components) {
+        if (component->getID() == id) {
+            component->setTexture(newTextures);
+            break;
+        }
+    }
+}
+
+Vector2 Renderer::getPosition(std::string id) {
+    for(const auto& component : components) {
+        if (component->getID() == id) {
+            return component->getPositionXY();
+        }
+    }
+    return Vector2({-1,-1});
+}
+
+Vector2 Renderer::getDimension(std::string id) {
+    for(const auto& component : components) {
+        if (component->getID() == id) {
+            return component->getDimension();
+        }
+    }
+    return Vector2({-1,-1});
 }

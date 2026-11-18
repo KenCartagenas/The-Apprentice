@@ -1,29 +1,50 @@
 #include <raylib.h>
 #include <memory>
 #include <iostream>
-#include "../includes/component/Button.h"
-#include "../includes/component/Background.h"
+#include "../includes/screen/MainMenu.h"
 #include "../includes/Game.h"
+#include "../includes/utilities/TextureHandler.h"
+#include "../includes/screen/GameMap.h"
 
-void Game::showMainMenu(Vector2 mouseXY) {
-    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-        std::string componentClicked = mainMenuRenderer.getComponentClicked(mouseXY);
-        std::cout << componentClicked << '\n';
-        if (componentClicked=="startbtn")
-            startGame = !startGame;
+void Game::showMainMenu(Vector2 mouseXY, int frameNumber) {
+    std::vector<std::string> options({"loadGameSelector", "startGameSelector", "exitGameSelector"});
+    if (IsKeyPressed(KEY_ENTER)) {
+        switch (mainMenuChoice) {
+            case 1:
+                startGame = true;
+                break;
+            case 2:
+                shouldClose = true;
+            default:
+                break;
+        }
     }
-    mainMenuRenderer.drawComponents();
+    if (IsKeyPressed(KEY_DOWN) && mainMenuChoice < options.size()-1) {
+        mainMenuRenderer.setTexture(options[mainMenuChoice], textureHandlerPtr->getTexture("graySelector"));
+        mainMenuChoice++;
+        mainMenuRenderer.setTexture(options[mainMenuChoice], textureHandlerPtr->getTexture("redSelector"));
+    } else if (IsKeyPressed(KEY_UP) && mainMenuChoice > 0) {
+        mainMenuRenderer.setTexture(options[mainMenuChoice], textureHandlerPtr->getTexture("graySelector"));
+        mainMenuChoice--;
+        mainMenuRenderer.setTexture(options[mainMenuChoice], textureHandlerPtr->getTexture("redSelector"));
+    }
+    mainMenuRenderer.drawComponents(frameNumber);
 }
 
-void Game::update() {
+void Game::update(int frameNumber) {
     Vector2 m = GetMousePosition();
     if (!startGame)
-        showMainMenu(m);
+        showMainMenu(m, frameNumber);
+    else
+        gameMapRenderer.drawComponents(frameNumber);
 }
 
-void Game::init() {
-    /*Main Menu*/
-    mainMenuRenderer.addComponent(std::make_unique<Background>("../assets/bg.png", "mainMenuBg"));
-    mainMenuRenderer.addComponent(std::make_unique<Button>("START", "startbtn", 275, 350, 250, 100, Color({100,100,100,255})));
-    mainMenuRenderer.addComponent(std::make_unique<Button>("x", "exitbtn", 10,10,30,30,Color({243,43,53,255})));
+void Game::init(TextureHandler* handler) {
+    textureHandlerPtr = handler;
+    Renderer* mainMenuRendererPtr = &mainMenuRenderer;
+    Renderer* gameMapRendererPtr = &gameMapRenderer;
+    MainMenu mainMenu(mainMenuRendererPtr, textureHandlerPtr);
+    GameMap gameMap(gameMapRendererPtr, textureHandlerPtr);
+    mainMenu.initScreen();
+    gameMap.initScreen();
 }

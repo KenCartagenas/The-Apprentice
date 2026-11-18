@@ -1,6 +1,7 @@
 #pragma once
 #include <raylib.h>
 #include <string>
+#include <vector>
 #include "Component.h"
 
 class Background : public Component {
@@ -10,21 +11,16 @@ private:
     float y = 0;
     float width;
     float height;
-    Texture2D backgroundImage;
+    std::vector<Texture2D>* textures;
 
 public:
-    Background(const char* file, std::string id) : 
-    id(id), width((float)GetScreenWidth()), height((float)GetScreenHeight()) {
-        backgroundImage = LoadTexture(file);
-        if(backgroundImage.id == 0) {
-            TraceLog(LOG_ERROR, "Failed to load JPEG");
-        }
-    }
-    void draw() override;
+    Background(std::string id, std::vector<Texture2D>* textures) : 
+    id(id), width((float)GetScreenWidth()), height((float)GetScreenHeight()), textures(textures) {}
+    void draw(int frameNumber) override;
+    void setPosition(Vector2 pos) override;
+    void setDimension(Vector2 dimension) override;
+    void setTexture(std::vector<Texture2D>* newTextures) override;
     Vector2 getPositionXY() override;
     Vector2 getDimension() override;
     std::string getID() override;
-    ~Background() {
-        UnloadTexture(backgroundImage);
-    }
 };
