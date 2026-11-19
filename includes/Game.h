@@ -13,7 +13,7 @@ private:
     
 public:
     bool shouldClose = false;
-    void showMainMenu(Vector2 mouseXY, int frameNumber);
+    void showMainMenu(int frameNumber);
     void update(int frameNumber);
     void init(TextureHandler *handler);
 };

@@ -11,5 +11,9 @@ namespace MapElements {
         {"grass7", {5,2}},
         {"grass8", {6,2}},
         {"soil", {1,7}},
+        {"topLeftSoil", {2,7}},
+        {"topRightSoil", {3,7}},
+        {"bottomLeftSoil", {5,7}},
+        {"bottomRightSoil", {1,8}}
     };
 }

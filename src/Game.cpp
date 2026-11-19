@@ -6,7 +6,7 @@
 #include "../includes/utilities/TextureHandler.h"
 #include "../includes/screen/GameMap.h"
 
-void Game::showMainMenu(Vector2 mouseXY, int frameNumber) {
+void Game::showMainMenu(int frameNumber) {
     std::vector<std::string> options({"loadGameSelector", "startGameSelector", "exitGameSelector"});
     if (IsKeyPressed(KEY_ENTER)) {
         switch (mainMenuChoice) {
@@ -32,11 +32,14 @@ void Game::showMainMenu(Vector2 mouseXY, int frameNumber) {
 }
 
 void Game::update(int frameNumber) {
-    Vector2 m = GetMousePosition();
     if (!startGame)
-        showMainMenu(m, frameNumber);
-    else
+        showMainMenu(frameNumber);
+    else {
+        if(IsKeyPressed(KEY_ENTER)) {
+            gameMapRenderer.setPosition("map", gameMapRenderer.getPosition("map"));
+        }
         gameMapRenderer.drawComponents(frameNumber);
+    }
 }
 
 void Game::init(TextureHandler* handler) {

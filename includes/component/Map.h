@@ -5,7 +5,7 @@
 #include <iostream>
 #include <cmath>
 
-class Map : public Component{
+class Map : public Component {
 private:
     std::string id;
     float x = 0;
@@ -13,17 +13,24 @@ private:
     float height;
     float width;
     std::vector<Texture2D>* textures;
-    std::vector<std::vector<std::string>> map;
+    std::vector<std::vector<std::string>> baseMap;
+    std::vector<Vector2> topLeftSoils;
+    std::vector<Vector2> topRightSoils;
+    std::vector<Vector2> bottomLeftSoils;
+    std::vector<Vector2> bottomRightSoils;
+    Vector2 blockPathStart;
+    Vector2 blockPathEnd;
+    void generateMap();
+    void generateBaseMap();
 
 public:
-    Map(std::vector<Texture2D>* textures) : textures(textures) {
-        map.assign(
+    Map(std::string id, std::vector<Texture2D>* textures, Vector2 blockPathStart) : id(id), textures(textures), blockPathStart(blockPathStart) {
+        baseMap.assign(
             (int)std::ceil(GetScreenHeight()/32.0f),
             std::vector<std::string>((int)std::ceil(GetScreenWidth()/32.0f), "")
         );
         generateMap();
     }
-    void generateMap();
     void draw(int frameNumber) override;
     void setPosition(Vector2 pos) override;
     void setDimension(Vector2 dimension) override;
