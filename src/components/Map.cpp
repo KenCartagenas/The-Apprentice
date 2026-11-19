@@ -2,6 +2,8 @@
 #include "../../includes/component/MapElements.h"
 #include <random>
 #include <iostream>
+#include <unordered_map>
+#include <utility>
 #include <cmath>
 
 void Map::generateMap() {
@@ -181,6 +183,55 @@ void Map::generateBaseMap() {
             }
         }
     }
+
+    for (size_t i = 0; i < (dist(gen)%6)+5; i++) {
+        float x = -1;
+        float y = -1;
+        while (x == -1 || y == -1) {
+            x = (float)(dist(gen)%baseMap[0].size());
+            y = (float)(dist(gen)%baseMap.size());
+            if(baseMap[y][x] != "soil")
+                bushes.push_back(Vector2({x, y}));
+        }   
+    }
+    for (size_t i = 0; i < (dist(gen)%6)+5; i++) {
+        float x = -1;
+        float y = -1;
+        while (x == -1 || y == -1) {
+            x = (float)(dist(gen)%baseMap[0].size());
+            y = (float)(dist(gen)%baseMap.size());
+            if(baseMap[y][x] != "soil") {
+                int number = (dist(gen)%4)+1;
+                std::pair<int, Vector2> stone = {number, Vector2({x, y})};
+                stones.push_back(stone);
+            }
+        }   
+    }
+    for (size_t i = 0; i < (dist(gen)%6)+5; i++) {
+        float x = -1;
+        float y = -1;
+        while (x == -1 || y == -1) {
+            x = (float)(dist(gen)%baseMap[0].size());
+            y = (float)(dist(gen)%baseMap.size());
+            if(baseMap[y][x] != "soil") {
+                int number = (dist(gen)%12)+1;
+                std::pair<int, Vector2> flower = {number, Vector2({x, y})};
+                flowers.push_back(flower);
+            }
+        }   
+    }
+
+    if (blockPathEnd.y == 0 || blockPathEnd.y == pathChoicesY[1]-1) {
+        for (size_t i = 0; i < 3; i++) {
+            Vector2 sparkle = {blockPathEnd.x+i, blockPathEnd.y};
+            sparkles.push_back(sparkle);
+        }
+    } else if(blockPathEnd.x == pathChoicesX[1]-1) {
+        for (size_t i = 0; i < 3; i++) {
+            Vector2 sparkle = {blockPathEnd.x, blockPathEnd.y+i};
+            sparkles.push_back(sparkle);
+        }
+    }
 }
 
 void Map::draw(int frameNumber) {
@@ -261,6 +312,70 @@ void Map::draw(int frameNumber) {
         };
         DrawTexturePro(textures->at((frameNumber/25)%textures->size()), source, dest, Vector2({0,0}), 0.0f, WHITE);
     }
+    
+    for (int i = 0; i < bushes.size(); i++) {
+        std::string element = "bushFrame" + std::to_string((frameNumber/15)%4+1);
+        Vector2 coordinate = MapElements::tileCoordinates.at(element);
+        Rectangle source = {
+            coordinate.x*16, coordinate.y*16,
+            16,
+            16
+        };
+        Rectangle dest = {
+            bushes[i].x*32.0f, bushes[i].y*32.0f,
+            32,
+            32
+        };
+        DrawTexturePro(textures->at((frameNumber/25)%textures->size()), source, dest, Vector2({0,0}), 0.0f, WHITE);
+    }
+
+    for (int i = 0; i < stones.size(); i++) {
+        std::string element = "stone" + std::to_string(stones[i].first);
+        Vector2 coordinate = MapElements::tileCoordinates.at(element);
+        Rectangle source = {
+            coordinate.x*16, coordinate.y*16,
+            16,
+            16
+        };
+        Rectangle dest = {
+            stones[i].second.x*32.0f, stones[i].second.y*32.0f,
+            32,
+            32
+        };
+        DrawTexturePro(textures->at((frameNumber/25)%textures->size()), source, dest, Vector2({0,0}), 0.0f, WHITE);
+    }
+    
+    for (int i = 0; i < flowers.size(); i++) {
+        std::string element = "flower" + std::to_string(flowers[i].first);
+        Vector2 coordinate = MapElements::tileCoordinates.at(element);
+        Rectangle source = {
+            coordinate.x*16, coordinate.y*16,
+            16,
+            16
+        };
+        Rectangle dest = {
+            flowers[i].second.x*32.0f, flowers[i].second.y*32.0f,
+            32,
+            32
+        };
+        DrawTexturePro(textures->at((frameNumber/25)%textures->size()), source, dest, Vector2({0,0}), 0.0f, WHITE);
+    }
+
+    for (int i = 0; i < sparkles.size(); i++) {
+        std::string element = "sparkle" + std::to_string((frameNumber/15)%4+1);
+        Vector2 coordinate = MapElements::tileCoordinates.at(element);
+        Rectangle source = {
+            coordinate.x*16, coordinate.y*16,
+            16,
+            16
+        };
+        Rectangle dest = {
+            sparkles[i].x*32.0f, sparkles[i].y*32.0f,
+            32,
+            32
+        };
+        DrawTexturePro(textures->at((frameNumber/25)%textures->size()), source, dest, Vector2({0,0}), 0.0f, WHITE);
+    }
 }
 
 Vector2 Map::getPositionXY() {
@@ -280,6 +395,10 @@ void Map::setPosition(Vector2 pos) {
     topRightSoils.clear();
     bottomLeftSoils.clear();
     bottomRightSoils.clear();
+    bushes.clear();
+    stones.clear();
+    flowers.clear();
+    sparkles.clear();
     if(pos.y == 0) {
         blockPathStart.y = baseMap.size()-1;
         blockPathStart.x = pos.x;

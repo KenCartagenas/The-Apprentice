@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <cmath>
+#include <utility>
 
 class Map : public Component {
 private:
@@ -18,6 +19,10 @@ private:
     std::vector<Vector2> topRightSoils;
     std::vector<Vector2> bottomLeftSoils;
     std::vector<Vector2> bottomRightSoils;
+    std::vector<Vector2> bushes;
+    std::vector<Vector2> sparkles;
+    std::vector<std::pair<int, Vector2>> stones;
+    std::vector<std::pair<int, Vector2>> flowers;
     Vector2 blockPathStart;
     Vector2 blockPathEnd;
     void generateMap();
