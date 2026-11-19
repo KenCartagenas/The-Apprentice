@@ -1,12 +1,12 @@
 #pragma once
-#include "Component.h"
 #include <vector>
 #include <string>
 #include <iostream>
 #include <cmath>
 #include <utility>
+#include <raylib.h>
 
-class Map : public Component {
+class Map {
 private:
     std::string id;
     float x = 0;
@@ -36,11 +36,8 @@ public:
         );
         generateMap();
     }
-    void draw(int frameNumber) override;
-    void setPosition(Vector2 pos) override;
-    void setDimension(Vector2 dimension) override;
-    void setTexture(std::vector<Texture2D>* newTextures) override;
-    Vector2 getPositionXY() override;
-    Vector2 getDimension() override;
-    std::string getID() override;
+    void draw(int frameNumber);
+    void setBlockPathStart(Vector2 pos);
+    Vector2 getBlockPathEnd();
+    std::string getID();
 };

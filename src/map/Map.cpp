@@ -1,5 +1,5 @@
-#include "../../includes/component/Map.h"
-#include "../../includes/component/MapElements.h"
+#include "../../includes/map/Map.h"
+#include "../../includes/map/MapElements.h"
 #include <random>
 #include <iostream>
 #include <unordered_map>
@@ -378,19 +378,16 @@ void Map::draw(int frameNumber) {
     }
 }
 
-Vector2 Map::getPositionXY() {
+Vector2 Map::getBlockPathEnd() {
     return blockPathEnd;
 }
 
-Vector2 Map::getDimension() {
-    return Vector2({width,height});
-}
 
 std::string Map::getID() {
     return id;
 }
 
-void Map::setPosition(Vector2 pos) {
+void Map::setBlockPathStart(Vector2 pos) {
     topLeftSoils.clear();
     topRightSoils.clear();
     bottomLeftSoils.clear();
@@ -411,12 +408,3 @@ void Map::setPosition(Vector2 pos) {
     }
     generateMap();
 }
-void Map::setDimension(Vector2 dimension) {
-    width = dimension.x;
-    height = dimension.y;
-}
-
-void Map::setTexture(std::vector<Texture2D>* newTextures) {
-    textures = newTextures;
-}
-

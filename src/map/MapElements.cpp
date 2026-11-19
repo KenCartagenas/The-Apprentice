@@ -1,4 +1,4 @@
-#include "../../includes/component/MapElements.h"
+#include "../../includes/map/MapElements.h"
 
 namespace MapElements {
     const std::unordered_map<std::string, Vector2> tileCoordinates = {

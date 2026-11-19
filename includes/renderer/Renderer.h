@@ -3,11 +3,15 @@
 #include <memory>
 #include <raylib.h>
 #include "../component/Component.h"
+#include "../map/Map.h"
 
 class Renderer {
-public:
+private:
     std::vector<std::unique_ptr<Component>> components;
+public:
+    Map *map;
     void addComponent(std::unique_ptr<Component> component);
+    void setMap(Map *map);
     std::string getComponentClicked(Vector2 mouseClickPosition);
     void drawComponents(int frameNumber);
     void setPosition(std::string id, Vector2 position);

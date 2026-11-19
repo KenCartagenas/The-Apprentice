@@ -36,7 +36,7 @@ void Game::update(int frameNumber) {
         showMainMenu(frameNumber);
     else {
         if(IsKeyPressed(KEY_ENTER)) {
-            gameMapRenderer.setPosition("map", gameMapRenderer.getPosition("map"));
+            gameMapRenderer.map->setBlockPathStart(gameMapRenderer.map->getBlockPathEnd());
         }
         gameMapRenderer.drawComponents(frameNumber);
     }

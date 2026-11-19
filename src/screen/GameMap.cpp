@@ -1,6 +1,8 @@
 #include "../../includes/screen/GameMap.h"
-#include "../../includes/component/Map.h"
+#include "../../includes/map/Map.h"
 
 void GameMap::initScreen() {
-    GameMapRenderer->addComponent(std::make_unique<Map>("map" ,textureHandler->getTexture("mapTileset"), Vector2({6,23})));
+    Map map("map" ,textureHandler->getTexture("mapTileset"), Vector2({6,23}));
+    Map *mapptr = &map;
+    GameMapRenderer->setMap(mapptr);
 }
