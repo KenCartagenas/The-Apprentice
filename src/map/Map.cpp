@@ -382,6 +382,9 @@ Vector2 Map::getBlockPathEnd() {
     return blockPathEnd;
 }
 
+Vector2 Map::getBlockPathStart() {
+    return blockPathStart;
+}
 
 std::string Map::getID() {
     return id;

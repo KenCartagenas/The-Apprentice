@@ -8,7 +8,7 @@ void Renderer::addComponent(std::unique_ptr<Component> component) {
 }
 
 void Renderer::setMap(Map *mapPtr) {
-    map = mapPtr;
+    mapptr = mapPtr;
 }
 
 std::string Renderer::getComponentClicked(Vector2 mouseClickPosition) {
@@ -27,7 +27,9 @@ void Renderer::drawComponents(int frameNumber) {
     for (const auto& component : components) {
         component->draw(frameNumber);
     }
-    map->draw(frameNumber);
+    if (mapptr != nullptr) {
+        mapptr->draw(frameNumber);
+    }
 }
 
 void Renderer::setPosition(std::string id, Vector2 position) {

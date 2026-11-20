@@ -17,8 +17,8 @@ int main() {
     TextureHandler textureHandler;
     addAssets(textureHandler);
     TextureHandler *textureHandlerPtr = &textureHandler;
-    Game game;
-    game.init(textureHandlerPtr);
+    Game game(textureHandlerPtr);
+    game.init();
     uint64_t frameCount = 0;
     while(!WindowShouldClose() && !game.shouldClose) {
         frameCount++;
@@ -37,4 +37,6 @@ void addAssets(TextureHandler &textureHandler) {
     textureHandler.addTexture(std::make_unique<TextureAsset>("redSelector", 1, "assets/component/redSelector/"));
     textureHandler.addTexture(std::make_unique<TextureAsset>("mainMenuLogo", 1, "assets/logo/mainmenu/"));
     textureHandler.addTexture(std::make_unique<TextureAsset>("mapTileset", 1, "assets/map/"));
+    textureHandler.addTexture(std::make_unique<TextureAsset>("idle", 9, "assets/character/idle/"));
+    textureHandler.addTexture(std::make_unique<TextureAsset>("running", 8, "assets/character/running/"));
 }

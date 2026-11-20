@@ -9,7 +9,7 @@ class Renderer {
 private:
     std::vector<std::unique_ptr<Component>> components;
 public:
-    Map *map;
+    Map *mapptr = nullptr;
     void addComponent(std::unique_ptr<Component> component);
     void setMap(Map *map);
     std::string getComponentClicked(Vector2 mouseClickPosition);

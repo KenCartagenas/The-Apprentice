@@ -9,5 +9,5 @@ private:
 
 public:
     GameMap(Renderer* renderer, TextureHandler* textureHandler) : GameMapRenderer(renderer) , textureHandler(textureHandler) {}
-    void initScreen();
+    void initScreen(Map *mapptr);
 };

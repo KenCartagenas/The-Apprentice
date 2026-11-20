@@ -11,7 +11,7 @@ void MainMenu::initScreen() {
     float gap = 40;
 
     mainMenuRenderer->addComponent(std::make_unique<Background>("mainMenuBg", 
-                                                                textureHandler->getTexture("mainMenuBg") 
+                                                                textureHandler->getTexture("mainMenuBg")
                                                             ));
     mainMenuRenderer->addComponent(std::make_unique<Picture>("mainMenuLogo", 
                                                             textureHandler->getTexture("mainMenuLogo"), 

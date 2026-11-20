@@ -29,6 +29,7 @@ private:
     void generateBaseMap();
 
 public:
+    Map() = default;
     Map(std::string id, std::vector<Texture2D>* textures, Vector2 blockPathStart) : id(id), textures(textures), blockPathStart(blockPathStart) {
         baseMap.assign(
             (int)std::ceil(GetScreenHeight()/32.0f),
@@ -39,5 +40,6 @@ public:
     void draw(int frameNumber);
     void setBlockPathStart(Vector2 pos);
     Vector2 getBlockPathEnd();
+    Vector2 getBlockPathStart();
     std::string getID();
 };
